@@ -17,7 +17,7 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    cd Angular-Helloworld
+    cd Helloworld
     npm install -g @angular/cli
     npm install
     ng build --prod
