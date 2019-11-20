@@ -11,14 +11,27 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: NodeTool@0
+- task: Npm@1
+  displayName: 'npm install'
   inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+    workingDir: HelloWorld
+    verbose: false
 
-- script: |
-    cd Helloworld
-    npm install -g @angular/cli
-    npm install
-    ng build --prod
-  displayName: 'npm install and build'
+- task: Npm@1
+  displayName: 'npm install build prod'
+  inputs:
+    command: custom
+    workingDir: HelloWorld
+    verbose: false
+    customCommand: 'run build'
+
+- task: ArchiveFiles@2
+  displayName: 'Archive files'
+  inputs:
+    rootFolderOrFile: HelloWorld/dist/HelloWorld
+    includeRootFolder: false
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish artifacts: deploymentFolder'
+  inputs:
+    ArtifactName: deploymentFolder
